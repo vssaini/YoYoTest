@@ -1,0 +1,177 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Muli:wght@200;300;400;500;600;700&family=Sail&display=swap");
+
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: "Muli", sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Chrome, Safari */
+    text-rendering: optimizeLegibility;
+    /* Firefox */
+    color: #000;
+    font-weight: 400;
+}
+
+img {
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    word-break: break-word;
+}
+
+p {
+    word-break: break-word;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: "Muli", sans-serif;
+}
+
+    button:focus {
+        outline: none !important;
+    }
+
+ul,
+li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.yoyo-test {
+    background: #fafafa;
+    border: 1px solid #333;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+    .yoyo-test .top {
+        display: flex;
+        align-items: center;
+    }
+
+        .yoyo-test .top a {
+            color: #999;
+            font-size: 30px;
+        }
+
+        .yoyo-test .top h3 {
+            width: calc(100% - 11px);
+            text-align: center;
+            font-size: 24px;
+        }
+
+    .yoyo-test .middle {
+        padding: 30px 0;
+    }
+
+        .yoyo-test .middle .play-icon {
+            background: #fff;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 24px;
+            color: #376155;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin: 0 auto 30px;
+        }
+
+        .yoyo-test .middle .col-4 {
+            border-right: 1px solid #d9d8d8;
+            text-align: center;
+        }
+
+            .yoyo-test .middle .col-4 p {
+                color: #999;
+                margin: 0;
+                text-transform: uppercase;
+                font-size: 12px;
+            }
+
+            .yoyo-test .middle .col-4 span {
+                color: #376155;
+                display: block;
+            }
+
+    .yoyo-test .bottom {
+        margin-top: 20px;
+    }
+
+        .yoyo-test .bottom h4 {
+            color: #376155;
+            border-bottom: 1px solid #999;
+        }
+
+        .yoyo-test .bottom h4 {
+            color: #376155;
+            border-bottom: 1px solid #999;
+            font-size: 18px;
+            padding: 0 0 5px;
+            margin-bottom: 20px;
+        }
+
+        .yoyo-test .bottom ul {
+            padding: 0;
+            list-style: inside;
+        }
+
+            .yoyo-test .bottom ul li {
+                list-style: decimal inside;
+                color: #515151;
+                border-bottom: 1px solid #eee;
+                padding: 10px 0;
+            }
+
+                .yoyo-test .bottom ul li > div {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: calc(100% - 20px);
+                    float: right;
+                }
+
+                    .yoyo-test .bottom ul li > div p {
+                        margin: 0;
+                    }
+
+                .yoyo-test .bottom ul li select {
+                    background: none;
+                    border: 1px solid #dcdcdc;
+                }
+
+            .yoyo-test .bottom ul .btn-sec a {
+                border-radius: 30px;
+                padding: 2px 10px;
+                background: #556f90;
+                display: inline-block;
+                color: #fff;
+                font-size: 12px;
+            }
+
+                .yoyo-test .bottom ul .btn-sec a.stop {
+                    background: #e9847c;
+                }
+
+                .yoyo-test .bottom ul .btn-sec a.warned {
+                    background: #b0bccc;
+                }
