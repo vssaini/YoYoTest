@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoYo-Web-App", "YoYo-Web-App\YoYo-Web-App.csproj", "{714BECEF-D399-4F55-8623-F5E79F495FF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoYo-Web-App", "YoYo-Web-App\YoYo-Web-App.csproj", "{714BECEF-D399-4F55-8623-F5E79F495FF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoYo.Domain", "YoYo.Domain\YoYo.Domain.csproj", "{D8468849-4D29-445B-8CFD-8FCD1BFC4BCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoYo.Service", "YoYo.Services\YoYo.Service.csproj", "{E98AA978-FC6A-469D-BACE-0954A8D5B8C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoYo.Infrastructure", "YoYo.Infrastructure\YoYo.Infrastructure.csproj", "{8FC17292-9C28-4BFA-B5CF-7861293A421D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{714BECEF-D399-4F55-8623-F5E79F495FF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{714BECEF-D399-4F55-8623-F5E79F495FF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{714BECEF-D399-4F55-8623-F5E79F495FF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8468849-4D29-445B-8CFD-8FCD1BFC4BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8468849-4D29-445B-8CFD-8FCD1BFC4BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8468849-4D29-445B-8CFD-8FCD1BFC4BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8468849-4D29-445B-8CFD-8FCD1BFC4BCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E98AA978-FC6A-469D-BACE-0954A8D5B8C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E98AA978-FC6A-469D-BACE-0954A8D5B8C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E98AA978-FC6A-469D-BACE-0954A8D5B8C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E98AA978-FC6A-469D-BACE-0954A8D5B8C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC17292-9C28-4BFA-B5CF-7861293A421D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC17292-9C28-4BFA-B5CF-7861293A421D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC17292-9C28-4BFA-B5CF-7861293A421D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC17292-9C28-4BFA-B5CF-7861293A421D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
