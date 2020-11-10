@@ -11,5 +11,7 @@ namespace YoYo.Infrastructure
         }
 
         public virtual DbSet<Athlete> Athletes { get; set; }
+        public virtual DbSet<TestAthlete> TestAthletes { get; set; }
+        public virtual DbSet<FitnessRating> FitnessRatings { get; set; }
     }
 }
