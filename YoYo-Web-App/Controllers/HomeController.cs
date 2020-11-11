@@ -1,22 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using YoYo.Model.ViewModels;
+using YoYo.Service;
 using YoYo_Web_App.Models;
 
 namespace YoYo_Web_App.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IDataService _dataService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IDataService dataService)
         {
-            _logger = logger;
+            _dataService = dataService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var testAthletes = new List<TestAthleteViewModel>();
+            try
+            {
+                testAthletes = await _dataService.GetTestAthletes().ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError(e.Message);
+            }
+
+            return View(testAthletes);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

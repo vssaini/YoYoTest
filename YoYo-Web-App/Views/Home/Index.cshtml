@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<TestAthleteViewModel>
+
+@{
     ViewData["Title"] = "Test Athletes";
 }
 
@@ -32,18 +34,23 @@
     <div class="bottom">
         <h4>Track</h4>
         <ul>
-            <li>
-                <div>
-                    <p>Ashton Eaton</p>
-                    <div class="btn-sec">
-                        <a class="" href="#">Warn</a>
-                        <a class="stop" href="#">Stop</a>
+            @foreach (var testAthlete in Model)
+            {
+                var warned = testAthlete.IsWarned ? "warned" : "";
+
+                <li>
+                    <div>
+                        <p>@testAthlete.Name</p>
+                        <div class="btn-sec">
+                            <a class='@warned' href="#">Warn</a>
+                            <a class="stop" href="#">Stop</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            }
             <li>
                 <div>
-                    <p>Ashton Eaton</p>
+                    <p>Test A</p>
                     <div class="btn-sec">
                         <a class="warned" href="#">Warned</a>
                         <a class="stop" href="#">Stop</a>
@@ -52,39 +59,12 @@
             </li>
             <li>
                 <div>
-                    <p>Ashton Eaton</p>
+                    <p>Test B</p>
                     <select>
                         <option>11-3</option>
                     </select>
                 </div>
             </li>
-            <li>
-                <div>
-                    <p>Ashton Eaton</p>
-                    <select>
-                        <option>9-10</option>
-                    </select>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <p>Ashton Eaton</p>
-							
-                </div>
-            </li>
-            <li>
-                <div>
-                    <p>Ashton Eaton</p>
-							
-                </div>
-            </li>
-            <li>
-                <div>
-                    <p>Ashton Eaton</p>
-							
-                </div>
-            </li>
-
         </ul>
     </div>
 </div>

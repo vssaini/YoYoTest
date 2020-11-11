@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using YoYo.Infrastructure;
+using YoYo.Service;
 
 namespace YoYo_Web_App
 {
@@ -20,10 +21,15 @@ namespace YoYo_Web_App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddDbContext<DatabaseContext>(o =>
+            {
+                o.UseInMemoryDatabase("YoYoTest").UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
 
-            services.AddDbContext<DatabaseContext>(o => { o.UseInMemoryDatabase("YoYoTest"); });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDataService, DataService>();
+
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

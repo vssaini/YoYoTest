@@ -13,6 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\YoYo.Domain\YoYo.Domain.csproj" />
     <ProjectReference Include="..\YoYo.Infrastructure\YoYo.Infrastructure.csproj" />
+    <ProjectReference Include="..\YoYo.Model\YoYo.Model.csproj" />
+    <ProjectReference Include="..\YoYo.Services\YoYo.Service.csproj" />
   </ItemGroup>
 
 </Project>

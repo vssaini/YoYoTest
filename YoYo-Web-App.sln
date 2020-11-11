@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoYo-Web-App", "YoYo-Web-App\YoYo-Web-App.csproj", "{714BECEF-D399-4F55-8623-F5E79F495FF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoYo.Domain", "YoYo.Domain\YoYo.Domain.csproj", "{D8468849-4D29-445B-8CFD-8FCD1BFC4BCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoYo.Domain", "YoYo.Domain\YoYo.Domain.csproj", "{D8468849-4D29-445B-8CFD-8FCD1BFC4BCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoYo.Service", "YoYo.Services\YoYo.Service.csproj", "{E98AA978-FC6A-469D-BACE-0954A8D5B8C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoYo.Service", "YoYo.Services\YoYo.Service.csproj", "{E98AA978-FC6A-469D-BACE-0954A8D5B8C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoYo.Infrastructure", "YoYo.Infrastructure\YoYo.Infrastructure.csproj", "{8FC17292-9C28-4BFA-B5CF-7861293A421D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoYo.Infrastructure", "YoYo.Infrastructure\YoYo.Infrastructure.csproj", "{8FC17292-9C28-4BFA-B5CF-7861293A421D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoYo.Model", "YoYo.Model\YoYo.Model.csproj", "{4F1211D0-A5D5-44AC-86C5-68E4635B76C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8FC17292-9C28-4BFA-B5CF-7861293A421D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FC17292-9C28-4BFA-B5CF-7861293A421D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FC17292-9C28-4BFA-B5CF-7861293A421D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F1211D0-A5D5-44AC-86C5-68E4635B76C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F1211D0-A5D5-44AC-86C5-68E4635B76C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F1211D0-A5D5-44AC-86C5-68E4635B76C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F1211D0-A5D5-44AC-86C5-68E4635B76C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
