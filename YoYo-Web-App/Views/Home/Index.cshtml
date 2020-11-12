@@ -10,8 +10,8 @@
         <h3>YoYo Test</h3>
     </div>
     <div class="middle">
-        <a href="#" class="play-icon"><i class="fa fa-play"></i></a>
-        <a href="#" class="progress-text">
+        <a href="javascript:void(0);" id="btnPlay" class="play-icon" onclick="app.startTest()"><i class="fa fa-play"></i></a>
+        <a href="javascript:void(0);" id="btnPlayInfo" class="progress-text d-none">
             <span>Level 12</span>
             <span>Shuttle 5</span>
             <small>14km/h</small>
@@ -68,3 +68,10 @@
         </ul>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        app.init();
+    </script>
+}
