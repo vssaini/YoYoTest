@@ -33,6 +33,16 @@ namespace YoYo_Web_App.Controllers
             return View(testAthletes);
         }
 
+        public IActionResult StartTimer()
+        {
+            return Ok();
+        }
+
+        public IActionResult Ping()
+        {
+            return Ok();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -6,17 +6,37 @@
 
 var app = {
 
-    init: () =>
-    {
-        console.log("Working");
-    },
-
     startTest: () =>
     {
         //console.log(event.target);
 
         $("#btnPlay").addClass("d-none");
         $("#btnPlayInfo").removeClass("d-none");
+
+        $(".btn-sec a").removeClass("d-none");
+
+        const url = "api/setting/StartTimer";
+        app.request(url, null, app.processTimerStatus);
+    },
+
+    processTimerStatus: (response) =>
+    {
+        const url = "api/setting/GetTimerStatus";
+        console.log(response);
+
+        // Timer play status
+        $("#speedLevel").text(`Level ${response.speedLevel}`);
+        $("#shuttleNumber").text(`Shuttle ${response.shuttleNumber}`);
+        $("#speed").text(`${response.speed} km/h`);
+
+        $("#currentShuttleSecondsLeft").text(`${response.currentShuttleSecondsLeft}s`);
+        //$("#totalTime").text();
+        $("#totalDistance").text(`${response.totalDistance} m`);
+
+        setTimeout(() =>
+        {
+            app.request(url, null, app.processTimerStatus);
+        }, 1000);
     },
 
     request: (url, data, successCallback) =>

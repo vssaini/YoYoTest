@@ -28,6 +28,7 @@ namespace YoYo_Web_App
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDataService, DataService>();
+            services.AddScoped<IProcessService, ProcessService>();
 
             services.AddControllersWithViews();
         }
@@ -54,6 +55,9 @@ namespace YoYo_Web_App
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers(); // Attribute routing
+
+                // Default routing
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

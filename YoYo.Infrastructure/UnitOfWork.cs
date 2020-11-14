@@ -11,9 +11,11 @@ namespace YoYo.Infrastructure
 
         private IBaseRepository<Athlete> _athletes;
         private IBaseRepository<TestAthlete> _testAthletes;
+        private IBaseRepository<FitnessRating> _fitnessRatings;
 
         public IBaseRepository<Athlete> Athletes => _athletes ??= new BaseRepository<Athlete>(_context);
         public IBaseRepository<TestAthlete> TestAthletes => _testAthletes ??= new BaseRepository<TestAthlete>(_context);
+        public IBaseRepository<FitnessRating> FitnessRatings => _fitnessRatings ??= new BaseRepository<FitnessRating>(_context);
 
         public UnitOfWork(DatabaseContext dbContext)
         {

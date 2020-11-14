@@ -12,22 +12,22 @@
     <div class="middle">
         <a href="javascript:void(0);" id="btnPlay" class="play-icon" onclick="app.startTest()"><i class="fa fa-play"></i></a>
         <a href="javascript:void(0);" id="btnPlayInfo" class="progress-text d-none">
-            <span>Level 12</span>
-            <span>Shuttle 5</span>
-            <small>14km/h</small>
+            <span id="speedLevel">NA</span>
+            <span id="shuttleNumber">NA</span><br/>
+            <small id="speed">NA</small>
         </a>
         <div class="row">
             <div class="col-4">
                 <p>Next Shuttle</p>
-                <span>0:00s</span>
+                <span id="currentShuttleSecondsLeft">0:00s</span>@*how many seconds left of current shuttle*@
             </div>
             <div class="col-4">
                 <p>Total Time</p>
-                <span>0:00m</span>
+                <span id="totalTime">0:00m</span>@*total time of test*@
             </div>
             <div class="col-4">
                 <p>Total Distance</p>
-                <span>0 m</span>
+                <span id="totalDistance">0 m</span>@*total distance for test in progress*@
             </div>
         </div>
     </div>
@@ -42,8 +42,8 @@
                     <div>
                         <p>@testAthlete.Name</p>
                         <div class="btn-sec">
-                            <a class='@warned' href="#">Warn</a>
-                            <a class="stop" href="#">Stop</a>
+                            <a class='@warned d-none' href="#">Warn</a>
+                            <a class="stop d-none" href="#">Stop</a>
                         </div>
                     </div>
                 </li>
@@ -52,8 +52,8 @@
                 <div>
                     <p>Test A</p>
                     <div class="btn-sec">
-                        <a class="warned" href="#">Warned</a>
-                        <a class="stop" href="#">Stop</a>
+                        <a class="warned d-none" href="#">Warned</a>
+                        <a class="stop d-none" href="#">Stop</a>
                     </div>
                 </div>
             </li>
@@ -68,10 +68,3 @@
         </ul>
     </div>
 </div>
-
-@section Scripts
-{
-    <script>
-        app.init();
-    </script>
-}

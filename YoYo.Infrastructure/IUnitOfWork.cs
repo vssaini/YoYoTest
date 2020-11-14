@@ -8,6 +8,7 @@ namespace YoYo.Infrastructure
     {
         IBaseRepository<Athlete> Athletes { get; }
         IBaseRepository<TestAthlete> TestAthletes { get; }
+        IBaseRepository<FitnessRating> FitnessRatings { get; }
 
         Task<int> SaveAsync();
     }
