@@ -26,6 +26,9 @@ namespace YoYo_Web_App
                 o.UseInMemoryDatabase("YoYoTest").UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
+            services.AddMemoryCache();
+
+            services.AddScoped<ICacheHelper, CacheHelper>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IProcessService, ProcessService>();

@@ -8,7 +8,6 @@ namespace YoYo.Service
         /// <summary>
         /// Get test status.
         /// </summary>
-        /// <returns></returns>
-        Task<TestStatusViewModel> GetTestStatus();
+        Task<TestStatusViewModel> GetTestStatusAsync();
     }
 }

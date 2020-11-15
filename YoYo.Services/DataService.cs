@@ -16,7 +16,7 @@ namespace YoYo.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<TestAthleteViewModel>> GetTestAthletes()
+        public async Task<List<TestAthleteViewModel>> GetTestAthletesAsync()
         {
             var testAthletes = await _unitOfWork.TestAthletes.All().Include(t => t.Athlete).ToListAsync().ConfigureAwait(false);
 

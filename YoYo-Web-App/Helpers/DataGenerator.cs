@@ -14,8 +14,7 @@ namespace YoYo_Web_App.Helpers
     {
         public static void SeedDatabase(IServiceProvider serviceProvider)
         {
-            using var context =
-                new DatabaseContext(serviceProvider.GetRequiredService<DbContextOptions<DatabaseContext>>());
+            using var context = new DatabaseContext(serviceProvider.GetRequiredService<DbContextOptions<DatabaseContext>>());
             SeedAthletes(context);
             SeedTestAthletes(context);
             SeedFitnessRatings(context);
@@ -67,8 +66,12 @@ namespace YoYo_Web_App.Helpers
 
         private static void SeedTestAthletes(DatabaseContext context)
         {
-            var athletes = context.Athletes.ToList();
+            if (context.TestAthletes.Any())
+            {
+                return;
+            }
 
+            var athletes = context.Athletes.ToList();
             var testAthletes = athletes.Select(a => new TestAthlete
             {
                 AthleteId = a.Id,
@@ -77,26 +80,20 @@ namespace YoYo_Web_App.Helpers
                 TestScore = null
             });
 
-            if (context.TestAthletes.Any())
-            {
-                return;
-            }
-
             context.TestAthletes.AddRange(testAthletes);
         }
 
         private static void SeedFitnessRatings(DatabaseContext context)
         {
-            var fitnessJsonPath = $"{AppDomain.CurrentDomain.GetData("DataDirectory")}\\fitnessrating_beeptest.json";
-            var fitnessJsonString = File.ReadAllText(fitnessJsonPath);
-
-            var fitnessRatings = JsonConvert.DeserializeObject<List<FitnessRating>>(fitnessJsonString);
-
             if (context.FitnessRatings.Any())
             {
                 return;
             }
 
+            var fitnessJsonPath = $"{AppDomain.CurrentDomain.GetData("DataDirectory")}\\fitnessrating_beeptest.json";
+            var fitnessJsonString = File.ReadAllText(fitnessJsonPath);
+
+            var fitnessRatings = JsonConvert.DeserializeObject<List<FitnessRating>>(fitnessJsonString);
             context.FitnessRatings.AddRange(fitnessRatings);
         }
     }

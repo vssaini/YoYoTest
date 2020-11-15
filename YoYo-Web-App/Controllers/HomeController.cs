@@ -23,7 +23,7 @@ namespace YoYo_Web_App.Controllers
             var testAthletes = new List<TestAthleteViewModel>();
             try
             {
-                testAthletes = await _dataService.GetTestAthletes().ConfigureAwait(false);
+                testAthletes = await _dataService.GetTestAthletesAsync().ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -31,16 +31,6 @@ namespace YoYo_Web_App.Controllers
             }
 
             return View(testAthletes);
-        }
-
-        public IActionResult StartTimer()
-        {
-            return Ok();
-        }
-
-        public IActionResult Ping()
-        {
-            return Ok();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

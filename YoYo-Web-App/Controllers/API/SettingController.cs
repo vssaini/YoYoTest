@@ -19,14 +19,14 @@ namespace YoYo_Web_App.Controllers.API
         [Route("StartTimer")]
         public async Task<ActionResult<TestStatusViewModel>> StartTimer()
         {
-            var testStatusVm = await _processService.GetTestStatus().ConfigureAwait(false);
+            var testStatusVm = await _processService.GetTestStatusAsync().ConfigureAwait(false);
             return testStatusVm;
         }
 
         [Route("GetTimerStatus")]
         public async Task<TestStatusViewModel> GetTimerStatus()
         {
-            var testStatusVm = await _processService.GetTestStatus().ConfigureAwait(false);
+            var testStatusVm = await _processService.GetTestStatusAsync().ConfigureAwait(false);
             return testStatusVm;
         }
     }
