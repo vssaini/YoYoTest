@@ -26,6 +26,7 @@ namespace YoYo.Service
 
             return new TestStatusViewModel
             {
+                CurrentShuttleLevel = fitnessRating.CurrentShuttleLevel,
                 SpeedLevel = fitnessRating.SpeedLevel,
                 ShuttleNumber = fitnessRating.ShuttleNo,
                 Speed = fitnessRating.Speed,

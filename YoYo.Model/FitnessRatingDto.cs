@@ -1,17 +1,7 @@
-﻿using System;
-
-namespace YoYo.Domain.Entities
+﻿namespace YoYo.Model
 {
-    public class FitnessRating : IBaseEntity
+    public class FitnessRatingDto
     {
-        public int Id { get; set; }
-        public DateTime DateCreated { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current shuttle level.
-        /// </summary>
-        public int CurrentShuttleLevel { get; set; }
-
         public int AccumulatedShuttleDistance { get; set; }
         public int SpeedLevel { get; set; }
         public int ShuttleNo { get; set; }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using YoYo.Domain.Entities;
 using YoYo.Infrastructure;
+using YoYo.Model;
 
 namespace YoYo_Web_App.Helpers
 {
@@ -93,7 +94,21 @@ namespace YoYo_Web_App.Helpers
             var fitnessJsonPath = $"{AppDomain.CurrentDomain.GetData("DataDirectory")}\\fitnessrating_beeptest.json";
             var fitnessJsonString = File.ReadAllText(fitnessJsonPath);
 
-            var fitnessRatings = JsonConvert.DeserializeObject<List<FitnessRating>>(fitnessJsonString);
+            var fitnessRatingDtos = JsonConvert.DeserializeObject<List<FitnessRatingDto>>(fitnessJsonString);
+            var fitnessRatings = fitnessRatingDtos.GroupBy(f => f.ShuttleNo).Select((g, index) => new FitnessRating
+            {
+                CurrentShuttleLevel = index + 1,
+                ShuttleNo = g.Key,
+
+                AccumulatedShuttleDistance = g.First().AccumulatedShuttleDistance,
+                SpeedLevel = g.First().SpeedLevel,
+                Speed = g.First().Speed,
+                LevelTime = g.First().LevelTime,
+                CommulativeTime = g.First().CommulativeTime,
+                StartTime = g.First().StartTime,
+                ApproxVo2Max = g.First().ApproxVo2Max
+            });
+
             context.FitnessRatings.AddRange(fitnessRatings);
         }
     }

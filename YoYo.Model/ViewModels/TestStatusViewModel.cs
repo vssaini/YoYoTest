@@ -6,6 +6,11 @@
     public class TestStatusViewModel
     {
         /// <summary>
+        /// Gets or sets current shuttle level.
+        /// </summary>
+        public int CurrentShuttleLevel { get; set; }
+
+        /// <summary>
         /// Gets or sets speed level of current shuttle.
         /// </summary>
         public int SpeedLevel { get; set; }

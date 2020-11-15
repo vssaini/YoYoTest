@@ -9,7 +9,7 @@ namespace YoYo.Service
     public interface ICacheHelper
     {
         /// <summary>
-        /// Get fitness ratings from cache
+        /// Get fitness ratings from cache.
         /// </summary>
         /// <returns>List of fitness ratings.</returns>
         List<FitnessRating> GetFitnessRatingsFromCache();

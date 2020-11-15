@@ -25,7 +25,7 @@ var app = {
         console.log(response);
 
         // Timer play status
-        $("#speedLevel").text(`Level ${response.speedLevel}`);
+        $("#shuttleLevel").text(`Level ${response.currentShuttleLevel}`);
         $("#shuttleNumber").text(`Shuttle ${response.shuttleNumber}`);
         $("#speed").text(`${response.speed} km/h`);
 
