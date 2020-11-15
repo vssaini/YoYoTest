@@ -16,15 +16,19 @@ var app = {
         $(".btn-sec a").removeClass("d-none");
 
         const url = "api/setting/StartTimer";
-        app.request(url, null, app.processTimerStatus);
+        const data = { NextLevel: 1, ShuttleNumber: 1 };
+        app.post(url, data, app.processTimerStatus);
     },
 
     processTimerStatus: (response) =>
     {
-        const url = "api/setting/GetTimerStatus";
         console.log(response);
+        if (!response)
+        {
+            alert("Timer status not available");
+            return;
+        }
 
-        // Timer play status
         $("#shuttleLevel").text(`Level ${response.currentShuttleLevel}`);
         $("#shuttleNumber").text(`Shuttle ${response.shuttleNumber}`);
         $("#speed").text(`${response.speed} km/h`);
@@ -33,10 +37,38 @@ var app = {
         //$("#totalTime").text();
         $("#totalDistance").text(`${response.totalDistance} m`);
 
-        setTimeout(() =>
+        var secondsLeft = response.currentShuttleSecondsLeft;
+        var nextShuttleTimer = setInterval(() =>
         {
-            app.request(url, null, app.processTimerStatus);
+            secondsLeft--;
+            
+            if (secondsLeft <= 0)
+            {
+                clearInterval(nextShuttleTimer);
+                const url = "api/setting/GetTimerStatus";
+                const data = {
+                    NextLevel: response.currentShuttleLevel + 1,
+                    ShuttleNumber: response.shuttleNumber
+                };
+                app.post(url, data, app.processTimerStatus);
+            } else
+            {
+                $("#currentShuttleSecondsLeft").text(`${secondsLeft}s`);
+            }
         }, 1000);
+
+
+        // Timer play status
+        //const url = "api/setting/GetTimerStatus";
+        //const data = {
+        //    NextLevel: response.currentShuttleLevel + 1,
+        //    ShuttleNumber: response.shuttleNumber
+        //};
+
+        //setTimeout(() =>
+        //{
+        //    app.post(url, data, app.processTimerStatus);
+        //}, 1000);
     },
 
     request: (url, data, successCallback) =>
@@ -44,6 +76,27 @@ var app = {
         $.ajax({
             type: "GET",
             data: data,
+            url: url,
+            success: function (response)
+            {
+                successCallback(response);
+            },
+            error: function (xhr)
+            {
+                const errorMessage = `${xhr.status}:${xhr.statusText}`;
+                console.error(errorMessage);
+                console.log(xhr.responseText);
+            }
+        });
+    },
+
+    post(url, data, successCallback)
+    {
+        const json = JSON.stringify(data);
+        $.ajax({
+            type: "POST",
+            data: json,
+            contentType: "application/json; charset=utf-8",
             url: url,
             success: function (response)
             {

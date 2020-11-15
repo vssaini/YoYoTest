@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using YoYo.Model;
 using YoYo.Model.ViewModels;
 
 namespace YoYo.Service
@@ -8,6 +9,7 @@ namespace YoYo.Service
         /// <summary>
         /// Get test status.
         /// </summary>
-        Task<TestStatusViewModel> GetTestStatusAsync();
+        /// <param name="testStatusFilter">The filter for deciding next level and shuttle.</param>
+        Task<TestStatusViewModel> GetTestStatusAsync(TestStatusFilter testStatusFilter);
     }
 }

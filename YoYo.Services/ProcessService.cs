@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using YoYo.Domain.Entities;
 using YoYo.Infrastructure;
+using YoYo.Model;
 using YoYo.Model.ViewModels;
 
 namespace YoYo.Service
@@ -19,21 +20,34 @@ namespace YoYo.Service
             _cacheHelper = cacheHelper;
         }
 
-        public async Task<TestStatusViewModel> GetTestStatusAsync()
+        public async Task<TestStatusViewModel> GetTestStatusAsync(TestStatusFilter testStatusFilter)
         {
             var fitnessRatings = await GetFitnessRatingsAsync().ConfigureAwait(false);
-            var fitnessRating = fitnessRatings.Where(f => f.ShuttleNo == 1).OrderBy(f => f.SpeedLevel).First();
 
-            return new TestStatusViewModel
+            var shuttleFitnessRatings = fitnessRatings.Where(f => f.ShuttleNo == testStatusFilter.ShuttleNumber).ToList();
+            if (shuttleFitnessRatings.Count == 0)
             {
-                CurrentShuttleLevel = fitnessRating.CurrentShuttleLevel,
-                SpeedLevel = fitnessRating.SpeedLevel,
-                ShuttleNumber = fitnessRating.ShuttleNo,
-                Speed = fitnessRating.Speed,
-                CurrentShuttleSecondsLeft = fitnessRating.LevelTime,
-                TotalDistance = 0,
-                TotalTime = 0
-            };
+                return null;
+            }
+
+            var fitnessRating = shuttleFitnessRatings.FirstOrDefault(f => f.CurrentShuttleLevel == testStatusFilter.NextLevel);
+            if (fitnessRating != null)
+            {
+                return new TestStatusViewModel
+                {
+                    CurrentShuttleLevel = fitnessRating.CurrentShuttleLevel,
+                    SpeedLevel = fitnessRating.SpeedLevel,
+                    ShuttleNumber = fitnessRating.ShuttleNo,
+                    Speed = fitnessRating.Speed,
+                    CurrentShuttleSecondsLeft = fitnessRating.LevelTime,
+                    TotalDistance = 0,
+                    TotalTime = 0
+                };
+            }
+
+            testStatusFilter.ShuttleNumber = testStatusFilter.ShuttleNumber + 1;
+            testStatusFilter.NextLevel = 1;
+            return await GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
         }
 
         private async Task<List<FitnessRating>> GetFitnessRatingsAsync()

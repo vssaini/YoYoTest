@@ -95,19 +95,25 @@ namespace YoYo_Web_App.Helpers
             var fitnessJsonString = File.ReadAllText(fitnessJsonPath);
 
             var fitnessRatingDtos = JsonConvert.DeserializeObject<List<FitnessRatingDto>>(fitnessJsonString);
-            var fitnessRatings = fitnessRatingDtos.GroupBy(f => f.ShuttleNo).Select((g, index) => new FitnessRating
-            {
-                CurrentShuttleLevel = index + 1,
-                ShuttleNo = g.Key,
+            var frDtoGroups = fitnessRatingDtos.GroupBy(f => f.ShuttleNo).Select(g => g.ToList());
 
-                AccumulatedShuttleDistance = g.First().AccumulatedShuttleDistance,
-                SpeedLevel = g.First().SpeedLevel,
-                Speed = g.First().Speed,
-                LevelTime = g.First().LevelTime,
-                CommulativeTime = g.First().CommulativeTime,
-                StartTime = g.First().StartTime,
-                ApproxVo2Max = g.First().ApproxVo2Max
-            });
+            var fitnessRatings = new List<FitnessRating>();
+            foreach (var frDtoGroup in frDtoGroups)
+            {
+                fitnessRatings.AddRange(frDtoGroup.Select((f, index) => new FitnessRating
+                {
+                    CurrentShuttleLevel = index + 1,
+                    ShuttleNo = f.ShuttleNo,
+
+                    AccumulatedShuttleDistance = f.AccumulatedShuttleDistance,
+                    SpeedLevel = f.SpeedLevel,
+                    Speed = f.Speed,
+                    LevelTime = (int)f.LevelTime,
+                    CommulativeTime = f.CommulativeTime,
+                    StartTime = f.StartTime,
+                    ApproxVo2Max = f.ApproxVo2Max
+                }));
+            }
 
             context.FitnessRatings.AddRange(fitnessRatings);
         }
