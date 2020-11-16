@@ -41,5 +41,10 @@ namespace YoYo.Model.ViewModels
         /// Gets or sets the distance incrementer.
         /// </summary>
         public double DistanceIncrementer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the accumulated distance of current shuttle.
+        /// </summary>
+        public int AccumulatedDistance { get; set; }
     }
 }

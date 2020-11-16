@@ -55,7 +55,7 @@ var app = {
                 const data = {
                     ShuttleLevel: response.shuttleLevel + 1,
                     ShuttleNumber: response.shuttleNumber,
-                    TotalDistance: response.totalDistance,
+                    TotalDistance: response.accumulatedDistance,
                     TotalTimeSeconds: response.currentShuttleSecondsLeft
                 };
                 console.log("GetTimerStatus params", data);
@@ -100,15 +100,17 @@ var app = {
 
     setTotalDistanceTimer: (response) =>
     {
-        let distance = 0; // response.accumulatedShuttleDistance;
+        let distance = response.totalDistance;
+        const distanceLimit = response.accumulatedDistance;
+
         const totalDistanceTimer = setInterval(() =>
         {
             distance = distance + response.distanceIncrementer;
 
-            if (response.distanceLimit - distance <= 1)
+            if (distanceLimit - distance <= 1)
             {
                 clearInterval(totalDistanceTimer);
-                $("#totalDistance").text(`${response.distanceLimit.toFixed(2)} m`);
+                $("#totalDistance").text(`${distanceLimit.toFixed(2)} m`);
 
             } else
             {

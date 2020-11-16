@@ -51,6 +51,7 @@ namespace YoYo.Service
                     CurrentShuttleSecondsLeft = currentShuttleSecondsLeft,
                     TotalTimeSeconds = totalTimeSeconds,
 
+                    AccumulatedDistance = fitnessRatingDistance,
                     DistanceIncrementer = fitnessRatingDistance / currentShuttleSecondsLeft,
                     TotalDistance = totalDistance
                 };
