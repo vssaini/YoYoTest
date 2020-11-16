@@ -46,5 +46,10 @@ namespace YoYo.Model.ViewModels
         /// Gets or sets the accumulated distance of current shuttle.
         /// </summary>
         public int AccumulatedDistance { get; set; }
+
+        /// <summary>
+        /// Gets or sets current shuttle speed level.
+        /// </summary>
+        public int SpeedLevel { get; set; }
     }
 }

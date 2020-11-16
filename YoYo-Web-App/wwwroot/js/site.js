@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var shuttleLevel = 1, shuttleNumber = 1;
+var shuttleLevel = 1, speedLevel, shuttleNumber = 1;
 
 var app = {
 
@@ -12,35 +12,36 @@ var app = {
         $(".btn-sec a").removeClass("d-none");
 
         const url = "api/setting/StartTimer";
-        const data = { ShuttleLevel: 1, ShuttleNumber: 1 };
+        const data = { ShuttleLevel: 1, ShuttleNumber: shuttleNumber };
         app.post(url, data, app.processTimerStatus);
     },
 
     processTimerStatus: (response) =>
     {
         console.log("Response ", response);
-        if (!response)
+        if (!response.data)
         {
             // TODO: Test completed. Show "view results" button
             alert("Timer status not available");
             return;
         }
 
-        shuttleLevel = response.shuttleLevel;
-        shuttleNumber = response.shuttleNumber;
+        shuttleLevel = response.data.shuttleLevel;
+        speedLevel = response.data.speedLevel;
+        shuttleNumber = response.data.shuttleNumber;
 
         $("#shuttleLevel").text(`Level ${shuttleLevel}`);
         $("#shuttleNumber").text(`Shuttle ${shuttleNumber}`);
-        $("#speed").text(`${response.speed} km/h`);
+        $("#speed").text(`${response.data.speed} km/h`);
 
-        app.setNextShuttleTimer(response);
-        app.setTotalTimeTimer(response);
-        app.setTotalDistanceTimer(response);
+        app.setNextShuttleTimer(response.data);
+        app.setTotalTimeTimer(response.data);
+        app.setTotalDistanceTimer(response.data);
     },
 
-    setNextShuttleTimer: (response) =>
+    setNextShuttleTimer: (testStatusVm) =>
     {
-        let secondsLeft = response.currentShuttleSecondsLeft, minutes, seconds;
+        let secondsLeft = testStatusVm.currentShuttleSecondsLeft, minutes, seconds;
 
         const nextShuttleTimer = setInterval(() =>
         {
@@ -58,12 +59,12 @@ var app = {
 
                 const url = "api/setting/GetTimerStatus";
                 const data = {
-                    ShuttleLevel: response.shuttleLevel + 1,
-                    ShuttleNumber: response.shuttleNumber,
-                    TotalDistance: response.accumulatedDistance,
-                    TotalTimeSeconds: response.currentShuttleSecondsLeft
+                    ShuttleLevel: testStatusVm.shuttleLevel + 1,
+                    ShuttleNumber: testStatusVm.shuttleNumber,
+                    TotalDistance: testStatusVm.accumulatedDistance,
+                    TotalTimeSeconds: testStatusVm.currentShuttleSecondsLeft
                 };
-                console.log("GetTimerStatus params", data);
+                
                 app.post(url, data, app.processTimerStatus);
             } else
             {
@@ -72,10 +73,10 @@ var app = {
         }, 1000);
     },
 
-    setTotalTimeTimer: (response) =>
+    setTotalTimeTimer: (testStatusVm) =>
     {
-        let timer = response.totalTimeSeconds, minutes, seconds;
-        const timeLimit = response.currentShuttleSecondsLeft;
+        let timer = testStatusVm.totalTimeSeconds, minutes, seconds;
+        const timeLimit = testStatusVm.currentShuttleSecondsLeft;
 
         const totalTimeTimer = setInterval(() =>
         {
@@ -103,14 +104,14 @@ var app = {
         }, 1000);
     },
 
-    setTotalDistanceTimer: (response) =>
+    setTotalDistanceTimer: (testStatusVm) =>
     {
-        let distance = response.totalDistance;
-        const distanceLimit = response.accumulatedDistance;
+        let distance = testStatusVm.totalDistance;
+        const distanceLimit = testStatusVm.accumulatedDistance;
 
         const totalDistanceTimer = setInterval(() =>
         {
-            distance = distance + response.distanceIncrementer;
+            distance = distance + testStatusVm.distanceIncrementer;
 
             if (distanceLimit - distance <= 1)
             {
@@ -131,16 +132,17 @@ var app = {
         const url = "api/setting/WarnAthlete";
         const data = { AthleteId: athleteId };
 
-        app.post(url, data, function (isWarned)
+        app.post(url, data, function (result)
         {
-            if (isWarned)
+            if (result.data)
             {
                 target.text("Warned");
                 target.addClass("warned");
                 target.attr("disabled", true);
             } else
             {
-                alert("Failed to warn current athlete");
+                const msg = result.errorMessage ? result.errorMessage : `Failed to warn athlete`;
+                alert(msg);
             }
         });
     },
@@ -150,17 +152,42 @@ var app = {
         const parent = $(event.target.parentElement);
 
         const url = "api/setting/StopAthlete";
-        const data = { AthleteId: athleteId };
+        const data = {
+            AthleteId: athleteId,
+            SpeedLevel: speedLevel,
+            ShuttleLevel: shuttleLevel,
+            ShuttleNumber: shuttleNumber
+        };
 
-        app.post(url, data, function (isStopped)
+        app.post(url, data, function (result)
         {
-            if (isStopped)
+            if (result.data.isStopped)
             {
-                console.log("Stopped");
                 parent.addClass("d-none");
+                $(parent).siblings("select").removeClass("d-none");
+                $(parent).siblings("select").val(result.data.score);
             } else
             {
-                alert("Failed to stop current athlete");
+                const msg = result.errorMessage ? result.errorMessage : `Failed to stop athlete`;
+                alert(msg);
+            }
+        });
+    },
+
+    updateAthleteTestScore: (ddlTestScore, athleteId) =>
+    {
+        const url = "api/setting/UpdateAthleteTestScore";
+        const data = {
+            AthleteId: athleteId,
+            TestScore: ddlTestScore.value
+        };
+
+        app.post(url, data, function (result)
+        {
+            if (!result.data)
+            {
+                const msg = result.errorMessage ? result.errorMessage : `Failed to update athlete's test score.`;
+                alert(msg);
             }
         });
     },

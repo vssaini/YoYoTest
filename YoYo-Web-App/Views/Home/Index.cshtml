@@ -19,15 +19,15 @@
         <div class="row">
             <div class="col-4">
                 <p>Next Shuttle</p>
-                <span id="currentShuttleSecondsLeft">0:00 s</span>@*how many seconds left of current shuttle*@
+                <span id="currentShuttleSecondsLeft">0:00 s</span>
             </div>
             <div class="col-4">
                 <p>Total Time</p>
-                <span id="totalTime">0:00 m</span>@*total time of test*@
+                <span id="totalTime">0:00 m</span>
             </div>
             <div class="col-4">
                 <p>Total Distance</p>
-                <span id="totalDistance">0 m</span>@*total distance for test in progress*@
+                <span id="totalDistance">0 m</span>
             </div>
         </div>
     </div>
@@ -47,29 +47,11 @@
                             <a class='@warned d-none' href="javascript:void(0);" onclick="app.warnAthlete(@testAthlete.AthleteId)">Warn</a>
                             <a class="stop d-none" href="javascript:void(0);" onclick="app.stopAthlete(@testAthlete.AthleteId)">Stop</a>
                         </div>
-                        <select class="@showSelect" asp-items="@(new SelectList(testAthlete.TestResults,"Value","Text"))">
-                            <option>Please select one</option>
+                        <select class="@showSelect" asp-for="@testAthlete.TestScore" asp-items="@(new SelectList(testAthlete.TestResults,"Value","Text"))" onchange="app.updateAthleteTestScore(this,@testAthlete.AthleteId)">
                         </select>
                     </div>
                 </li>
             }
-            <li>
-                <div>
-                    <p>Test A</p>
-                    <div class="btn-sec">
-                        <a class="warned d-none" href="#">Warned</a>
-                        <a class="stop d-none" href="#">Stop</a>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <p>Test B</p>
-                    <select>
-                        <option>11-3</option>
-                    </select>
-                </div>
-            </li>
         </ul>
     </div>
 </div>

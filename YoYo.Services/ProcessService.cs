@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using YoYo.Domain.Entities;
@@ -53,6 +54,7 @@ namespace YoYo.Service
             {
                 // Play circle info
                 ShuttleLevel = fitnessRating.ShuttleLevel,
+                SpeedLevel = fitnessRating.SpeedLevel,
                 ShuttleNumber = fitnessRating.ShuttleNo,
                 Speed = fitnessRating.Speed,
 
@@ -78,12 +80,39 @@ namespace YoYo.Service
             return rowsAffected > 0;
         }
 
-        public async Task<bool> StopAthlete(int athleteId)
+        public async Task<Result<StopStatus>> StopAthlete(TestAthleteParam testAthleteParam)
         {
-            var testAthlete = await _unitOfWork.TestAthletes.All().FirstOrDefaultAsync(t => t.AthleteId == athleteId).ConfigureAwait(false);
+            var result = new Result<StopStatus>();
+
+            var testAthlete = await _unitOfWork.TestAthletes.All().FirstOrDefaultAsync(t => t.AthleteId == testAthleteParam.AthleteId).ConfigureAwait(false);
+            if (testAthlete != null)
+            {
+                var speedLevel = testAthleteParam.ShuttleLevel - 1 > 0 ? testAthleteParam.SpeedLevel - 1 : testAthleteParam.SpeedLevel;
+                var testScore = $"{speedLevel}-{testAthleteParam.ShuttleNumber}";
+
+                testAthlete.TestScore = testScore;
+                testAthlete.IsStopped = true;
+
+                _unitOfWork.TestAthletes.Update(testAthlete);
+                var rowsAffected = await _unitOfWork.SaveAsync().ConfigureAwait(false);
+
+                result.Data = new StopStatus { IsStopped = rowsAffected > 0, Score = testScore };
+            }
+            else
+            {
+                result.Data = new StopStatus { IsStopped = false, Score = "" };
+            }
+
+            return result;
+        }
+
+        public async Task<bool> UpdateTestScore(TestAthleteParam testAthleteParam)
+        {
+            var testAthlete = await _unitOfWork.TestAthletes.All().FirstOrDefaultAsync(t => t.AthleteId == testAthleteParam.AthleteId).ConfigureAwait(false);
             if (testAthlete == null) { return false; }
 
-            testAthlete.IsStopped = true;
+            testAthlete.TestScore = testAthleteParam.TestScore;
+
             _unitOfWork.TestAthletes.Update(testAthlete);
             var rowsAffected = await _unitOfWork.SaveAsync().ConfigureAwait(false);
 

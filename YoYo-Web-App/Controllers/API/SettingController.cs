@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using YoYo.Model;
 using YoYo.Model.ViewModels;
@@ -19,37 +20,103 @@ namespace YoYo_Web_App.Controllers.API
 
         [HttpPost]
         [Route("StartTimer")]
-        public async Task<ActionResult<TestStatusViewModel>> StartTimer([FromBody] TestStatusFilter testStatusFilter)
+        public async Task<Result<TestStatusViewModel>> StartTimer([FromBody] TestStatusFilter testStatusFilter)
         {
-            var testStatusVm = await _processService.GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
-            return testStatusVm;
+            var result = new Result<TestStatusViewModel>();
+
+            try
+            {
+                var testStatusVm = await _processService.GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
+                result.Data = testStatusVm;
+            }
+            catch (Exception exc)
+            {
+                result.Data = null;
+                result.ErrorMessage = exc.Message;
+            }
+
+            return result;
         }
 
         [HttpPost]
         [Route("GetTimerStatus")]
-        public async Task<TestStatusViewModel> GetTimerStatus([FromBody] TestStatusFilter testStatusFilter)
+        public async Task<Result<TestStatusViewModel>> GetTimerStatus([FromBody] TestStatusFilter testStatusFilter)
         {
-            var testStatusVm = await _processService.GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
-            return testStatusVm;
+            var result = new Result<TestStatusViewModel>();
+
+            try
+            {
+                var testStatusVm = await _processService.GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
+                result.Data = testStatusVm;
+            }
+            catch (Exception exc)
+            {
+                result.Data = null;
+                result.ErrorMessage = exc.Message;
+            }
+
+            return result;
         }
 
         [HttpPost]
         [Route("WarnAthlete")]
-        public async Task<bool> WarnAthlete([FromBody] TestAthleteParam testAthleteParam)
+        public async Task<Result<bool>> WarnAthlete([FromBody] TestAthleteParam testAthleteParam)
         {
-            var isWarned = await _processService.WarnAthlete(testAthleteParam.AthleteId).ConfigureAwait(false);
-            return isWarned;
+            var result = new Result<bool>();
+
+            try
+            {
+                var warned = await _processService.WarnAthlete(testAthleteParam.AthleteId).ConfigureAwait(false);
+                result.Data = warned;
+            }
+            catch (Exception exc)
+            {
+                result.Data = false;
+                result.ErrorMessage = exc.Message;
+            }
+
+            return result;
         }
 
         [HttpPost]
         [Route("StopAthlete")]
-        public async Task<bool> StopAthlete([FromBody] TestAthleteParam testAthleteParam)
+        public async Task<Result<StopStatus>> StopAthlete([FromBody] TestAthleteParam testAthleteParam)
         {
-            var isStopped = await _processService.StopAthlete(testAthleteParam.AthleteId).ConfigureAwait(false);
-            return isStopped;
+            var result = new Result<StopStatus>();
+
+            try
+            {
+                result = await _processService.StopAthlete(testAthleteParam).ConfigureAwait(false);
+
+            }
+            catch (Exception exc)
+            {
+                result.ErrorMessage = exc.Message;
+                result.Data = new StopStatus { IsStopped = false, Score = "" };
+            }
+
+            return result;
         }
 
-        // TODO: Calculate result based on last level
+        [HttpPost]
+        [Route("UpdateAthleteTestScore")]
+        public async Task<Result<bool>> UpdateAthleteTestScore([FromBody] TestAthleteParam testAthleteParam)
+        {
+            var result = new Result<bool>();
+
+            try
+            {
+                var updated = await _processService.UpdateTestScore(testAthleteParam).ConfigureAwait(false);
+                result.Data = updated;
+            }
+            catch (Exception exc)
+            {
+                result.Data = false;
+                result.ErrorMessage = exc.Message;
+            }
+
+            return result;
+        }
         // TODO: Set dropdown options and select them
         // TODO: Show progress bar around play button
         // TODO: Prepare video

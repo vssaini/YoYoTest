@@ -22,8 +22,15 @@ namespace YoYo.Service
         /// <summary>
         /// Stop athlete by setting "IsStopped" property.
         /// </summary>
-        /// <param name="athleteId">The test athlete Id</param>
+        /// <param name="athleteId">The instance holding information for test athlete.</param>
         /// <returns>True if stopped successfully else false.</returns>
-        Task<bool> StopAthlete(int athleteId);
+        Task<Result<StopStatus>> StopAthlete(TestAthleteParam athleteId);
+
+        /// <summary>
+        /// Update test score of athlete.
+        /// </summary>
+        /// <param name="testAthleteParam">The instance holding athlete id and new test score.</param>
+        /// <returns>True if updated test score successfully else false.</returns>
+        Task<bool> UpdateTestScore(TestAthleteParam testAthleteParam);
     }
 }
