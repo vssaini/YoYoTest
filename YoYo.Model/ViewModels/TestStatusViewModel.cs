@@ -46,5 +46,15 @@ namespace YoYo.Model.ViewModels
         /// Gets or sets next level start time.
         /// </summary>
         public TimeSpan NextLevelStartTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the distance incrementer.
+        /// </summary>
+        public double DistanceIncrementer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the distance athlete has run for current shuttle.
+        /// </summary>
+        public int CurrentShuttleDistance { get; set; }
     }
 }

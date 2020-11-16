@@ -4,8 +4,6 @@ var app = {
 
     startTest: () =>
     {
-        //console.log(event.target);
-
         $("#btnPlay").addClass("d-none");
         $("#btnPlayInfo").removeClass("d-none");
 
@@ -30,11 +28,9 @@ var app = {
         $("#shuttleNumber").text(`Shuttle ${response.shuttleNumber}`);
         $("#speed").text(`${response.speed} km/h`);
 
-        $("#currentShuttleSecondsLeft").text(`${response.currentShuttleSecondsLeft}s`);
-        $("#totalDistance").text(`${response.totalDistance} m`);
-
         app.startNextShuttleTimer(response.currentShuttleSecondsLeft, response.currentShuttleLevel, response.shuttleNumber);
-        app.startTotalTimeTimer(0);
+        app.startTotalTimeTimer(0, response.currentShuttleSecondsLeft);
+        app.startTotalDistanceTimer(response.distanceIncrementer, response.currentShuttleDistance);
     },
 
     startNextShuttleTimer: (secondsLeft, currentShuttleLevel, shuttleNumber) =>
@@ -55,15 +51,15 @@ var app = {
                 app.post(url, data, app.processTimerStatus);
             } else
             {
-                $("#currentShuttleSecondsLeft").text(`${secondsLeft}s`);
+                $("#currentShuttleSecondsLeft").text(`${secondsLeft} s`);
             }
         }, 1000);
     },
 
-    startTotalTimeTimer: (duration) =>
+    startTotalTimeTimer: (duration, timeLimit) =>
     {
         let timer = duration, minutes, seconds;
-        setInterval(() =>
+        const totalTimeTimer = setInterval(() =>
         {
             minutes = parseInt(timer / 60, 10);
             seconds = parseInt(timer % 60, 10);
@@ -71,14 +67,40 @@ var app = {
             minutes = minutes < 10 ? `0${minutes}` : minutes;
             seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-            $("#totalTime").text(minutes + ":" + seconds);
-
             timer++;
 
-            //if (timer++ < 0)
-            //{
-            //    timer = duration;
-            //}
+            if (timeLimit - timer <= 1)
+            {
+                clearInterval(totalTimeTimer);
+
+                minutes = Math.floor(timeLimit / 60);
+                seconds = timeLimit % 60;
+
+                $("#totalTime").text(`${minutes}:${seconds} m`);
+            } else
+            {
+                $("#totalTime").text(`${minutes}:${seconds} m`);
+            }
+
+        }, 1000);
+    },
+
+    startTotalDistanceTimer: (distanceIncrementer, distanceLimit) =>
+    {
+        let distance = 0;
+        const totalDistanceTimer = setInterval(() =>
+        {
+            distance = distance + distanceIncrementer;
+
+            if (distanceLimit - distance <= 1)
+            {
+                clearInterval(totalDistanceTimer);
+                $("#totalDistance").text(`${distanceLimit.toFixed(2)} m`);
+
+            } else
+            {
+                $("#totalDistance").text(`${distance.toFixed(2)} m`);
+            }
         }, 1000);
     },
 

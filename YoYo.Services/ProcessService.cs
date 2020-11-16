@@ -33,14 +33,20 @@ namespace YoYo.Service
             var fitnessRating = shuttleFitnessRatings.FirstOrDefault(f => f.CurrentShuttleLevel == testStatusFilter.NextLevel);
             if (fitnessRating != null)
             {
+                var currentShuttleAllowedSeconds = fitnessRating.CommulativeTime.TotalSeconds + 1;
+
                 return new TestStatusViewModel
                 {
                     CurrentShuttleLevel = fitnessRating.CurrentShuttleLevel,
                     SpeedLevel = fitnessRating.SpeedLevel,
                     ShuttleNumber = fitnessRating.ShuttleNo,
                     Speed = fitnessRating.Speed,
-                    CurrentShuttleSecondsLeft = fitnessRating.CommulativeTime.TotalSeconds + 1,
-                    NextLevelStartTime = fitnessRating.CommulativeTime,
+
+                    CurrentShuttleSecondsLeft = currentShuttleAllowedSeconds,
+                    CurrentShuttleDistance = fitnessRating.AccumulatedShuttleDistance,
+                    //NextLevelStartTime = currentShuttleAllowedSeconds,
+
+                    DistanceIncrementer = fitnessRating.AccumulatedShuttleDistance / currentShuttleAllowedSeconds,
 
                     // TODO: Set these values both in code and script end
                     TotalDistance = 0,
