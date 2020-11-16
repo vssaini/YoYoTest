@@ -2,6 +2,18 @@
 
 var shuttleLevel = 1, speedLevel, shuttleNumber = 1;
 
+// Sample code for progress bar circle
+//var circle = new ProgressBar.Circle("#container", {
+//    strokeWidth: 5,
+//    easing: "easeInOut",
+//    duration: 1400,
+//    color: "#ED6A5A",
+//    trailColor: "#eee",
+//    trailWidth: 1,
+//    svgStyle: null
+//});
+//circle.animate(1.0);  // Number from 0.0 to 1.0
+
 var app = {
 
     startTest: () =>
@@ -64,7 +76,7 @@ var app = {
                     TotalDistance: testStatusVm.accumulatedDistance,
                     TotalTimeSeconds: testStatusVm.currentShuttleSecondsLeft
                 };
-                
+
                 app.post(url, data, app.processTimerStatus);
             } else
             {

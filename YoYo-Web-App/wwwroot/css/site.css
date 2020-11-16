@@ -190,3 +190,9 @@ a:hover {
     text-align: center;
     padding: 12px 0 5px 0;
 }
+
+#container {
+    margin: 20px;
+    width: 120px;
+    height: 120px;
+}

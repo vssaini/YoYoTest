@@ -117,7 +117,7 @@ namespace YoYo_Web_App.Controllers.API
 
             return result;
         }
-        // TODO: Set dropdown options and select them
+        
         // TODO: Show progress bar around play button
         // TODO: Prepare video
     }
