@@ -48,5 +48,10 @@ namespace YoYo_Web_App.Controllers.API
             var isStopped = await _processService.StopAthlete(testAthleteParam.AthleteId).ConfigureAwait(false);
             return isStopped;
         }
+
+        // TODO: Calculate result based on last level
+        // TODO: Set dropdown options and select them
+        // TODO: Show progress bar around play button
+        // TODO: Prepare video
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using YoYo.Domain.Entities;
@@ -12,17 +11,17 @@ namespace YoYo.Service
     public class ProcessService : IProcessService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICacheHelper _cacheHelper;
+        private readonly IDataService _dataService;
 
-        public ProcessService(IUnitOfWork unitOfWork, ICacheHelper cacheHelper)
+        public ProcessService(IUnitOfWork unitOfWork, IDataService dataService)
         {
             _unitOfWork = unitOfWork;
-            _cacheHelper = cacheHelper;
+            _dataService = dataService;
         }
 
         public async Task<TestStatusViewModel> GetTestStatusAsync(TestStatusFilter testStatusFilter)
         {
-            var fitnessRatings = await GetFitnessRatingsAsync().ConfigureAwait(false);
+            var fitnessRatings = await _dataService.GetFitnessRatingsAsync().ConfigureAwait(false);
 
             var shuttleFitnessRatings = fitnessRatings.Where(f => f.ShuttleNo == testStatusFilter.ShuttleNumber).ToList();
             if (shuttleFitnessRatings.Count == 0)
@@ -39,16 +38,6 @@ namespace YoYo.Service
             testStatusFilter.ShuttleNumber += 1;
             testStatusFilter.ShuttleLevel = 1;
             return await GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
-        }
-
-        private async Task<List<FitnessRating>> GetFitnessRatingsAsync()
-        {
-            var fitnessRatings = _cacheHelper.GetFitnessRatingsFromCache();
-            if (fitnessRatings != null && fitnessRatings.Count > 0) return fitnessRatings;
-
-            fitnessRatings = await _unitOfWork.FitnessRatings.All().ToListAsync().ConfigureAwait(false);
-            _cacheHelper.SetFitnessRatingsInCache(fitnessRatings);
-            return fitnessRatings;
         }
 
         private static TestStatusViewModel GetTestStatusViewModel(FitnessRating fitnessRating, TestStatusFilter testStatusFilter)

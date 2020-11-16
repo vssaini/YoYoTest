@@ -47,12 +47,8 @@
                             <a class='@warned d-none' href="javascript:void(0);" onclick="app.warnAthlete(@testAthlete.AthleteId)">Warn</a>
                             <a class="stop d-none" href="javascript:void(0);" onclick="app.stopAthlete(@testAthlete.AthleteId)">Stop</a>
                         </div>
-                        @*<select asp-for="@testAthlete."
-                                    asp-items="@(new SelectList(Model.EmployeesList,"Id","FullName"))">
-                                <option>Please select one</option>
-                            </select>*@
-                        <select class="@showSelect">
-                            <option>11-3</option>
+                        <select class="@showSelect" asp-items="@(new SelectList(testAthlete.TestResults,"Value","Text"))">
+                            <option>Please select one</option>
                         </select>
                     </div>
                 </li>
@@ -64,9 +60,6 @@
                         <a class="warned d-none" href="#">Warned</a>
                         <a class="stop d-none" href="#">Stop</a>
                     </div>
-                    <select>
-                        <option>11-3</option>
-                    </select>
                 </div>
             </li>
             <li>
