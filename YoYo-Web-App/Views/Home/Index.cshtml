@@ -45,6 +45,13 @@
                             <a class='@warned d-none' href="#">Warn</a>
                             <a class="stop d-none" href="#">Stop</a>
                         </div>
+                        @*<select asp-for="@testAthlete." 
+                                asp-items="@(new SelectList(Model.EmployeesList,"Id","FullName"))">
+                            <option>Please select one</option>
+                        </select>*@
+                        <select class="d-none">
+                            <option>11-3</option>
+                        </select>
                     </div>
                 </li>
             }
@@ -55,6 +62,9 @@
                         <a class="warned d-none" href="#">Warned</a>
                         <a class="stop d-none" href="#">Stop</a>
                     </div>
+                    <select>
+                        <option>11-3</option>
+                    </select>
                 </div>
             </li>
             <li>

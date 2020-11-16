@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-"use strict";
+﻿"use strict";
 
 var app = {
 
@@ -25,6 +21,7 @@ var app = {
         console.log(response);
         if (!response)
         {
+            // TODO: Test completed. Show "view results" button
             alert("Timer status not available");
             return;
         }
@@ -34,21 +31,26 @@ var app = {
         $("#speed").text(`${response.speed} km/h`);
 
         $("#currentShuttleSecondsLeft").text(`${response.currentShuttleSecondsLeft}s`);
-        //$("#totalTime").text();
         $("#totalDistance").text(`${response.totalDistance} m`);
 
-        var secondsLeft = response.currentShuttleSecondsLeft;
-        var nextShuttleTimer = setInterval(() =>
+        app.startNextShuttleTimer(response.currentShuttleSecondsLeft, response.currentShuttleLevel, response.shuttleNumber);
+        app.startTotalTimeTimer(0);
+    },
+
+    startNextShuttleTimer: (secondsLeft, currentShuttleLevel, shuttleNumber) =>
+    {
+        const nextShuttleTimer = setInterval(() =>
         {
             secondsLeft--;
-            
+
             if (secondsLeft <= 0)
             {
                 clearInterval(nextShuttleTimer);
+
                 const url = "api/setting/GetTimerStatus";
                 const data = {
-                    NextLevel: response.currentShuttleLevel + 1,
-                    ShuttleNumber: response.shuttleNumber
+                    NextLevel: currentShuttleLevel + 1,
+                    ShuttleNumber: shuttleNumber
                 };
                 app.post(url, data, app.processTimerStatus);
             } else
@@ -56,19 +58,28 @@ var app = {
                 $("#currentShuttleSecondsLeft").text(`${secondsLeft}s`);
             }
         }, 1000);
+    },
 
+    startTotalTimeTimer: (duration) =>
+    {
+        let timer = duration, minutes, seconds;
+        setInterval(() =>
+        {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
 
-        // Timer play status
-        //const url = "api/setting/GetTimerStatus";
-        //const data = {
-        //    NextLevel: response.currentShuttleLevel + 1,
-        //    ShuttleNumber: response.shuttleNumber
-        //};
+            minutes = minutes < 10 ? `0${minutes}` : minutes;
+            seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-        //setTimeout(() =>
-        //{
-        //    app.post(url, data, app.processTimerStatus);
-        //}, 1000);
+            $("#totalTime").text(minutes + ":" + seconds);
+
+            timer++;
+
+            //if (timer++ < 0)
+            //{
+            //    timer = duration;
+            //}
+        }, 1000);
     },
 
     request: (url, data, successCallback) =>

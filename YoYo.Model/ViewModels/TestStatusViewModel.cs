@@ -1,4 +1,6 @@
-﻿namespace YoYo.Model.ViewModels
+﻿using System;
+
+namespace YoYo.Model.ViewModels
 {
     /// <summary>
     /// Define properties that represent YoYo test progress status.
@@ -28,7 +30,7 @@
         /// <summary>
         /// Gets or sets seconds left of current shuttle.
         /// </summary>
-        public decimal CurrentShuttleSecondsLeft { get; set; }
+        public double CurrentShuttleSecondsLeft { get; set; }
 
         /// <summary>
         /// Gets or sets total time of YoYo test.
@@ -39,5 +41,10 @@
         /// Gets or sets total distance of YoYo test.
         /// </summary>
         public int TotalDistance { get; set; }
+
+        /// <summary>
+        /// Gets or sets next level start time.
+        /// </summary>
+        public TimeSpan NextLevelStartTime { get; set; }
     }
 }

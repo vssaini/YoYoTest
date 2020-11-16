@@ -39,7 +39,10 @@ namespace YoYo.Service
                     SpeedLevel = fitnessRating.SpeedLevel,
                     ShuttleNumber = fitnessRating.ShuttleNo,
                     Speed = fitnessRating.Speed,
-                    CurrentShuttleSecondsLeft = fitnessRating.LevelTime,
+                    CurrentShuttleSecondsLeft = fitnessRating.CommulativeTime.TotalSeconds + 1,
+                    NextLevelStartTime = fitnessRating.CommulativeTime,
+
+                    // TODO: Set these values both in code and script end
                     TotalDistance = 0,
                     TotalTime = 0
                 };
