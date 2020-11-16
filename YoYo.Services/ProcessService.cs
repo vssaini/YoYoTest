@@ -30,32 +30,31 @@ namespace YoYo.Service
                 return null;
             }
 
-            var fitnessRating = shuttleFitnessRatings.FirstOrDefault(f => f.CurrentShuttleLevel == testStatusFilter.NextLevel);
+            var fitnessRating = shuttleFitnessRatings.FirstOrDefault(f => f.ShuttleLevel == testStatusFilter.ShuttleLevel);
             if (fitnessRating != null)
             {
-                var currentShuttleAllowedSeconds = fitnessRating.CommulativeTime.TotalSeconds + 1;
+                var currentShuttleSecondsLeft = fitnessRating.CommulativeTime.TotalSeconds + 1;
+                var totalDistance = fitnessRating.AccumulatedShuttleDistance + testStatusFilter.TotalDistance;
+                var totalTimeSeconds = fitnessRating.CommulativeTime.TotalSeconds + testStatusFilter.TotalTimeSeconds;
 
                 return new TestStatusViewModel
                 {
-                    CurrentShuttleLevel = fitnessRating.CurrentShuttleLevel,
-                    SpeedLevel = fitnessRating.SpeedLevel,
+                    // Play circle info
+                    ShuttleLevel = fitnessRating.ShuttleLevel,
                     ShuttleNumber = fitnessRating.ShuttleNo,
                     Speed = fitnessRating.Speed,
 
-                    CurrentShuttleSecondsLeft = currentShuttleAllowedSeconds,
-                    CurrentShuttleDistance = fitnessRating.AccumulatedShuttleDistance,
-                    //NextLevelStartTime = currentShuttleAllowedSeconds,
+                    // Three columns info
+                    CurrentShuttleSecondsLeft = currentShuttleSecondsLeft,
+                    TotalTimeSeconds = totalTimeSeconds,
 
-                    DistanceIncrementer = fitnessRating.AccumulatedShuttleDistance / currentShuttleAllowedSeconds,
-
-                    // TODO: Set these values both in code and script end
-                    TotalDistance = 0,
-                    TotalTime = 0
+                    DistanceIncrementer = totalDistance / currentShuttleSecondsLeft,
+                    TotalDistance = totalDistance
                 };
             }
 
             testStatusFilter.ShuttleNumber = testStatusFilter.ShuttleNumber + 1;
-            testStatusFilter.NextLevel = 1;
+            testStatusFilter.ShuttleLevel = 1;
             return await GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
         }
 

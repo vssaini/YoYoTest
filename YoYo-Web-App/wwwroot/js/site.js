@@ -10,13 +10,13 @@ var app = {
         $(".btn-sec a").removeClass("d-none");
 
         const url = "api/setting/StartTimer";
-        const data = { NextLevel: 1, ShuttleNumber: 1 };
+        const data = { ShuttleLevel: 1, ShuttleNumber: 1 };
         app.post(url, data, app.processTimerStatus);
     },
 
     processTimerStatus: (response) =>
     {
-        console.log(response);
+        console.log("Response ", response);
         if (!response)
         {
             // TODO: Test completed. Show "view results" button
@@ -24,19 +24,27 @@ var app = {
             return;
         }
 
-        $("#shuttleLevel").text(`Level ${response.currentShuttleLevel}`);
+        $("#shuttleLevel").text(`Level ${response.shuttleLevel}`);
         $("#shuttleNumber").text(`Shuttle ${response.shuttleNumber}`);
         $("#speed").text(`${response.speed} km/h`);
 
-        app.startNextShuttleTimer(response.currentShuttleSecondsLeft, response.currentShuttleLevel, response.shuttleNumber);
-        app.startTotalTimeTimer(0, response.currentShuttleSecondsLeft);
-        app.startTotalDistanceTimer(response.distanceIncrementer, response.currentShuttleDistance);
+        app.setNextShuttleTimer(response);
+        app.setTotalTimeTimer(0, response.currentShuttleSecondsLeft);
+        app.setTotalDistanceTimer(response);
     },
 
-    startNextShuttleTimer: (secondsLeft, currentShuttleLevel, shuttleNumber) =>
+    setNextShuttleTimer: (response) =>
     {
+        let secondsLeft = response.currentShuttleSecondsLeft, minutes, seconds;
+
         const nextShuttleTimer = setInterval(() =>
         {
+            minutes = Math.floor(secondsLeft / 60);
+            seconds = secondsLeft % 60;
+
+            minutes = minutes < 10 ? `0${minutes}` : minutes;
+            seconds = seconds < 10 ? `0${seconds}` : seconds;
+
             secondsLeft--;
 
             if (secondsLeft <= 0)
@@ -45,18 +53,21 @@ var app = {
 
                 const url = "api/setting/GetTimerStatus";
                 const data = {
-                    NextLevel: currentShuttleLevel + 1,
-                    ShuttleNumber: shuttleNumber
+                    ShuttleLevel: response.shuttleLevel + 1,
+                    ShuttleNumber: response.shuttleNumber,
+                    TotalDistance: response.totalDistance,
+                    TotalTimeSeconds: response.currentShuttleSecondsLeft
                 };
+                console.dir("GetTimerStatus data ", data);
                 app.post(url, data, app.processTimerStatus);
             } else
             {
-                $("#currentShuttleSecondsLeft").text(`${secondsLeft} s`);
+                $("#currentShuttleSecondsLeft").text(`${minutes}:${seconds} s`);
             }
         }, 1000);
     },
 
-    startTotalTimeTimer: (duration, timeLimit) =>
+    setTotalTimeTimer: (duration, timeLimit) =>
     {
         let timer = duration, minutes, seconds;
         const totalTimeTimer = setInterval(() =>
@@ -85,17 +96,17 @@ var app = {
         }, 1000);
     },
 
-    startTotalDistanceTimer: (distanceIncrementer, distanceLimit) =>
+    setTotalDistanceTimer: (response) =>
     {
-        let distance = 0;
+        let distance = 0; // response.accumulatedShuttleDistance;
         const totalDistanceTimer = setInterval(() =>
         {
-            distance = distance + distanceIncrementer;
+            distance = distance + response.distanceIncrementer;
 
-            if (distanceLimit - distance <= 1)
+            if (response.distanceLimit - distance <= 1)
             {
                 clearInterval(totalDistanceTimer);
-                $("#totalDistance").text(`${distanceLimit.toFixed(2)} m`);
+                $("#totalDistance").text(`${response.distanceLimit.toFixed(2)} m`);
 
             } else
             {

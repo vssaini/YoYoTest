@@ -102,7 +102,7 @@ namespace YoYo_Web_App.Helpers
             {
                 fitnessRatings.AddRange(frDtoGroup.Select((f, index) => new FitnessRating
                 {
-                    CurrentShuttleLevel = index + 1,
+                    ShuttleLevel = index + 1,
                     ShuttleNo = f.ShuttleNo,
 
                     AccumulatedShuttleDistance = f.AccumulatedShuttleDistance,

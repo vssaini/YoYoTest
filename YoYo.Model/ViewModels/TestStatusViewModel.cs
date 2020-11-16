@@ -10,12 +10,7 @@ namespace YoYo.Model.ViewModels
         /// <summary>
         /// Gets or sets current shuttle level.
         /// </summary>
-        public int CurrentShuttleLevel { get; set; }
-
-        /// <summary>
-        /// Gets or sets speed level of current shuttle.
-        /// </summary>
-        public int SpeedLevel { get; set; }
+        public int ShuttleLevel { get; set; }
 
         /// <summary>
         /// Gets or sets shuttle number of current shuttle.
@@ -33,28 +28,18 @@ namespace YoYo.Model.ViewModels
         public double CurrentShuttleSecondsLeft { get; set; }
 
         /// <summary>
-        /// Gets or sets total time of YoYo test.
+        /// Gets or sets total time seconds spent for test.
         /// </summary>
-        public int TotalTime { get; set; }
+        public double TotalTimeSeconds { get; set; }
 
         /// <summary>
-        /// Gets or sets total distance of YoYo test.
+        /// Gets or sets the distance athlete has run for current shuttle.
         /// </summary>
-        public int TotalDistance { get; set; }
-
-        /// <summary>
-        /// Gets or sets next level start time.
-        /// </summary>
-        public TimeSpan NextLevelStartTime { get; set; }
+        public double TotalDistance { get; set; }
 
         /// <summary>
         /// Gets or sets the distance incrementer.
         /// </summary>
         public double DistanceIncrementer { get; set; }
-
-        /// <summary>
-        /// Gets or sets the distance athlete has run for current shuttle.
-        /// </summary>
-        public int CurrentShuttleDistance { get; set; }
     }
 }
