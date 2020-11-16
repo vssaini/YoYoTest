@@ -22,10 +22,9 @@ namespace YoYo.Service
 
             return testAthletes.Select(t => new TestAthleteViewModel
             {
-                Id = t.Id,
                 AthleteId = t.AthleteId,
                 Name = t.Athlete.Name,
-                IsTestStopped = t.IsTestStopped,
+                IsStopped = t.IsStopped,
                 IsWarned = t.IsWarned,
                 TestScore = t.TestScore
             }).ToList();

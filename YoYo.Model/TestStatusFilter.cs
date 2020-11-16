@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YoYo.Model
+﻿namespace YoYo.Model
 {
     public class TestStatusFilter
     {

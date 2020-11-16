@@ -1,5 +1,7 @@
 ﻿"use strict";
 
+var shuttleLevel = 1, shuttleNumber = 1;
+
 var app = {
 
     startTest: () =>
@@ -24,8 +26,11 @@ var app = {
             return;
         }
 
-        $("#shuttleLevel").text(`Level ${response.shuttleLevel}`);
-        $("#shuttleNumber").text(`Shuttle ${response.shuttleNumber}`);
+        shuttleLevel = response.shuttleLevel;
+        shuttleNumber = response.shuttleNumber;
+
+        $("#shuttleLevel").text(`Level ${shuttleLevel}`);
+        $("#shuttleNumber").text(`Shuttle ${shuttleNumber}`);
         $("#speed").text(`${response.speed} km/h`);
 
         app.setNextShuttleTimer(response);
@@ -117,6 +122,47 @@ var app = {
                 $("#totalDistance").text(`${distance.toFixed(2)} m`);
             }
         }, 1000);
+    },
+
+    warnAthlete: (athleteId) =>
+    {
+        const target = $(event.target);
+
+        const url = "api/setting/WarnAthlete";
+        const data = { AthleteId: athleteId };
+
+        app.post(url, data, function (isWarned)
+        {
+            if (isWarned)
+            {
+                target.text("Warned");
+                target.addClass("warned");
+                target.attr("disabled", true);
+            } else
+            {
+                alert("Failed to warn current athlete");
+            }
+        });
+    },
+
+    stopAthlete: (athleteId) =>
+    {
+        const parent = $(event.target.parentElement);
+
+        const url = "api/setting/StopAthlete";
+        const data = { AthleteId: athleteId };
+
+        app.post(url, data, function (isStopped)
+        {
+            if (isStopped)
+            {
+                console.log("Stopped");
+                parent.addClass("d-none");
+            } else
+            {
+                alert("Failed to stop current athlete");
+            }
+        });
     },
 
     request: (url, data, successCallback) =>

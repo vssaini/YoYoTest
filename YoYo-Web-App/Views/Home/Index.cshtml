@@ -13,7 +13,7 @@
         <a href="javascript:void(0);" id="btnPlay" class="play-icon" onclick="app.startTest()"><i class="fa fa-play"></i></a>
         <a href="javascript:void(0);" id="btnPlayInfo" class="progress-text d-none">
             <span id="shuttleLevel">NA</span>
-            <span id="shuttleNumber">NA</span><br/>
+            <span id="shuttleNumber">NA</span><br />
             <small id="speed">NA</small>
         </a>
         <div class="row">
@@ -37,19 +37,21 @@
             @foreach (var testAthlete in Model)
             {
                 var warned = testAthlete.IsWarned ? "warned" : "";
+                var stopped = testAthlete.IsStopped ? "d-none" : "";
+                var showSelect = testAthlete.IsStopped ? "" : "d-none";
 
                 <li>
                     <div>
                         <p>@testAthlete.Name</p>
-                        <div class="btn-sec">
-                            <a class='@warned d-none' href="#">Warn</a>
-                            <a class="stop d-none" href="#">Stop</a>
+                        <div class="btn-sec @stopped">
+                            <a class='@warned d-none' href="javascript:void(0);" onclick="app.warnAthlete(@testAthlete.AthleteId)">Warn</a>
+                            <a class="stop d-none" href="javascript:void(0);" onclick="app.stopAthlete(@testAthlete.AthleteId)">Stop</a>
                         </div>
-                        @*<select asp-for="@testAthlete." 
-                                asp-items="@(new SelectList(Model.EmployeesList,"Id","FullName"))">
-                            <option>Please select one</option>
-                        </select>*@
-                        <select class="d-none">
+                        @*<select asp-for="@testAthlete."
+                                    asp-items="@(new SelectList(Model.EmployeesList,"Id","FullName"))">
+                                <option>Please select one</option>
+                            </select>*@
+                        <select class="@showSelect">
                             <option>11-3</option>
                         </select>
                     </div>

@@ -16,7 +16,7 @@ namespace YoYo.Domain.Entities
         public virtual Athlete Athlete { get; set; }
 
         public bool IsWarned { get; set; }
-        public bool IsTestStopped { get; set; }
+        public bool IsStopped { get; set; }
         public string TestScore { get; set; }
     }
 }

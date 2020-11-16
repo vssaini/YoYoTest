@@ -33,6 +33,7 @@ namespace YoYo_Web_App
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IProcessService, ProcessService>();
 
+            //services.AddControllers().AddNewtonsoftJson();
             services.AddControllersWithViews();
         }
 

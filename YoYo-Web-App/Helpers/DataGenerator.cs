@@ -77,7 +77,7 @@ namespace YoYo_Web_App.Helpers
             {
                 AthleteId = a.Id,
                 IsWarned = false,
-                IsTestStopped = false,
+                IsStopped = false,
                 TestScore = null
             });
 
