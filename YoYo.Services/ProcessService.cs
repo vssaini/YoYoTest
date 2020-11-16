@@ -33,9 +33,12 @@ namespace YoYo.Service
             var fitnessRating = shuttleFitnessRatings.FirstOrDefault(f => f.ShuttleLevel == testStatusFilter.ShuttleLevel);
             if (fitnessRating != null)
             {
-                var currentShuttleSecondsLeft = fitnessRating.CommulativeTime.TotalSeconds + 1;
-                var totalDistance = fitnessRating.AccumulatedShuttleDistance + testStatusFilter.TotalDistance;
-                var totalTimeSeconds = fitnessRating.CommulativeTime.TotalSeconds + testStatusFilter.TotalTimeSeconds;
+                var fitnessRatingSeconds = fitnessRating.CommulativeTime.TotalSeconds;
+                var fitnessRatingDistance = fitnessRating.AccumulatedShuttleDistance;
+
+                var currentShuttleSecondsLeft = fitnessRatingSeconds + 1;
+                var totalTimeSeconds = fitnessRatingSeconds + testStatusFilter.TotalTimeSeconds - fitnessRatingSeconds;
+                var totalDistance = fitnessRatingDistance + testStatusFilter.TotalDistance - fitnessRatingDistance;
 
                 return new TestStatusViewModel
                 {
@@ -48,12 +51,12 @@ namespace YoYo.Service
                     CurrentShuttleSecondsLeft = currentShuttleSecondsLeft,
                     TotalTimeSeconds = totalTimeSeconds,
 
-                    DistanceIncrementer = totalDistance / currentShuttleSecondsLeft,
+                    DistanceIncrementer = fitnessRatingDistance / currentShuttleSecondsLeft,
                     TotalDistance = totalDistance
                 };
             }
 
-            testStatusFilter.ShuttleNumber = testStatusFilter.ShuttleNumber + 1;
+            testStatusFilter.ShuttleNumber += 1;
             testStatusFilter.ShuttleLevel = 1;
             return await GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
         }

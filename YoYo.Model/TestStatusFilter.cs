@@ -15,12 +15,12 @@ namespace YoYo.Model
         public int ShuttleNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets accumulated shuttle distance.
+        /// Gets or sets total distance for test.
         /// </summary>
         public double TotalDistance { get; set; }
 
         /// <summary>
-        /// Gets or sets total time spent seconds for test.
+        /// Gets or sets total time, in seconds, spent for test.
         /// </summary>
         public double TotalTimeSeconds { get; set; }
     }

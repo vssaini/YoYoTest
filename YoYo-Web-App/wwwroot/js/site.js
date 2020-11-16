@@ -29,7 +29,7 @@ var app = {
         $("#speed").text(`${response.speed} km/h`);
 
         app.setNextShuttleTimer(response);
-        app.setTotalTimeTimer(0, response.currentShuttleSecondsLeft);
+        app.setTotalTimeTimer(response);
         app.setTotalDistanceTimer(response);
     },
 
@@ -58,7 +58,7 @@ var app = {
                     TotalDistance: response.totalDistance,
                     TotalTimeSeconds: response.currentShuttleSecondsLeft
                 };
-                console.dir("GetTimerStatus data ", data);
+                console.log("GetTimerStatus params", data);
                 app.post(url, data, app.processTimerStatus);
             } else
             {
@@ -67,9 +67,11 @@ var app = {
         }, 1000);
     },
 
-    setTotalTimeTimer: (duration, timeLimit) =>
+    setTotalTimeTimer: (response) =>
     {
-        let timer = duration, minutes, seconds;
+        let timer = response.totalTimeSeconds, minutes, seconds;
+        const timeLimit = response.currentShuttleSecondsLeft;
+
         const totalTimeTimer = setInterval(() =>
         {
             minutes = parseInt(timer / 60, 10);
@@ -87,10 +89,10 @@ var app = {
                 minutes = Math.floor(timeLimit / 60);
                 seconds = timeLimit % 60;
 
-                $("#totalTime").text(`${minutes}:${seconds} m`);
+                $("#totalTime").text(`${minutes}:${seconds} s`);
             } else
             {
-                $("#totalTime").text(`${minutes}:${seconds} m`);
+                $("#totalTime").text(`${minutes}:${seconds} s`);
             }
 
         }, 1000);
