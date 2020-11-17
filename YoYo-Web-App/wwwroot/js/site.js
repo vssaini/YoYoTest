@@ -44,7 +44,7 @@ var app = {
         $("#shuttleNumber").text(`Shuttle ${shuttleNumber}`);
         $("#speed").text(`${response.data.speed} km/h`);
 
-        app.setBarProgress(0.15);
+        app.setBarProgress(response.data.progressStep);
 
         app.setNextShuttleTimer(response.data);
         app.setTotalTimeTimer(response.data);
@@ -85,12 +85,12 @@ var app = {
         }, 1000);
     },
 
-    setBarProgress: (progress) =>
+    setBarProgress: (step) =>
     {
         // Ref - https://kimmobrunfeldt.github.io/progressbar.js/
         // Progress should be decimal format as 0.15 represents 15%
 
-        bar.animate(progress); // Number from 0.0 to 1.0
+        bar.animate(step); // Number from 0.0 to 1.0
     },
 
     setTotalTimeTimer: (testStatusVm) =>

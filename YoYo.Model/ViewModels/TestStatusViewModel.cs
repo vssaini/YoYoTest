@@ -51,5 +51,10 @@ namespace YoYo.Model.ViewModels
         /// Gets or sets current shuttle speed level.
         /// </summary>
         public int SpeedLevel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the progress step.
+        /// </summary>
+        public double ProgressStep { get; set; }
     }
 }

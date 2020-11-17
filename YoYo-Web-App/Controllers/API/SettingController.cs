@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using YoYo.Model;
 using YoYo.Model.ViewModels;
@@ -117,8 +117,5 @@ namespace YoYo_Web_App.Controllers.API
 
             return result;
         }
-        
-        // TODO: Show progress bar around play button
-        // TODO: Prepare video
     }
 }

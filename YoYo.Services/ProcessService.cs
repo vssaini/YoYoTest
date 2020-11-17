@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using YoYo.Domain.Entities;
@@ -33,7 +32,11 @@ namespace YoYo.Service
             var fitnessRating = shuttleFitnessRatings.FirstOrDefault(f => f.ShuttleLevel == testStatusFilter.ShuttleLevel);
             if (fitnessRating != null)
             {
-                return GetTestStatusViewModel(fitnessRating, testStatusFilter);
+                var totalSeconds = fitnessRatings.Sum(f => f.CommulativeTime.TotalSeconds);
+                var shuttleSeconds = shuttleFitnessRatings.Sum(s => s.CommulativeTime.TotalSeconds);
+                var progressStep = shuttleSeconds / totalSeconds;
+
+                return GetTestStatusViewModel(fitnessRating, testStatusFilter, progressStep);
             }
 
             testStatusFilter.ShuttleNumber += 1;
@@ -41,7 +44,7 @@ namespace YoYo.Service
             return await GetTestStatusAsync(testStatusFilter).ConfigureAwait(false);
         }
 
-        private static TestStatusViewModel GetTestStatusViewModel(FitnessRating fitnessRating, TestStatusFilter testStatusFilter)
+        private static TestStatusViewModel GetTestStatusViewModel(FitnessRating fitnessRating, TestStatusFilter testStatusFilter, double progressStep)
         {
             var fitnessRatingSeconds = fitnessRating.CommulativeTime.TotalSeconds;
             var fitnessRatingDistance = fitnessRating.AccumulatedShuttleDistance;
@@ -57,6 +60,9 @@ namespace YoYo.Service
                 SpeedLevel = fitnessRating.SpeedLevel,
                 ShuttleNumber = fitnessRating.ShuttleNo,
                 Speed = fitnessRating.Speed,
+
+                // Progress bar data
+                ProgressStep = progressStep,
 
                 // Three columns info
                 CurrentShuttleSecondsLeft = currentShuttleSecondsLeft,
@@ -87,8 +93,17 @@ namespace YoYo.Service
             var testAthlete = await _unitOfWork.TestAthletes.All().FirstOrDefaultAsync(t => t.AthleteId == testAthleteParam.AthleteId).ConfigureAwait(false);
             if (testAthlete != null)
             {
-                var speedLevel = testAthleteParam.ShuttleLevel - 1 > 0 ? testAthleteParam.SpeedLevel - 1 : testAthleteParam.SpeedLevel;
-                var testScore = $"{speedLevel}-{testAthleteParam.ShuttleNumber}";
+                var testScore = $"{testAthleteParam.SpeedLevel}-{testAthleteParam.ShuttleNumber}";
+                if (testAthleteParam.ShuttleLevel - 1 > 0)
+                {
+                    var fitnessRatings = await _dataService.GetFitnessRatingsAsync().ConfigureAwait(false);
+                    var shuttleFitnessRating = fitnessRatings.Find(s => s.ShuttleNo == testAthleteParam.ShuttleNumber && s.ShuttleLevel == testAthleteParam.ShuttleLevel - 1);
+
+                    if (shuttleFitnessRating != null)
+                    {
+                        testScore = $"{shuttleFitnessRating.SpeedLevel}-{testAthleteParam.ShuttleNumber}";
+                    }
+                }
 
                 testAthlete.TestScore = testScore;
                 testAthlete.IsStopped = true;
