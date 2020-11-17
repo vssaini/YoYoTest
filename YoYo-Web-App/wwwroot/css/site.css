@@ -191,8 +191,13 @@ a:hover {
     padding: 12px 0 5px 0;
 }
 
-#container {
+/*#container {
     margin: 20px;
     width: 120px;
     height: 120px;
+}*/
+
+.center-div {
+    margin: 0 auto 30px;
+    text-align: center;
 }

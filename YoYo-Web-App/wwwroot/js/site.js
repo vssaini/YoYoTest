@@ -1,18 +1,6 @@
 ﻿"use strict";
 
-var shuttleLevel = 1, speedLevel, shuttleNumber = 1;
-
-// Sample code for progress bar circle
-//var circle = new ProgressBar.Circle("#container", {
-//    strokeWidth: 5,
-//    easing: "easeInOut",
-//    duration: 1400,
-//    color: "#ED6A5A",
-//    trailColor: "#eee",
-//    trailWidth: 1,
-//    svgStyle: null
-//});
-//circle.animate(1.0);  // Number from 0.0 to 1.0
+var shuttleLevel = 1, speedLevel, shuttleNumber = 1, bar;
 
 var app = {
 
@@ -22,6 +10,16 @@ var app = {
         $("#btnPlayInfo").removeClass("d-none");
 
         $(".btn-sec a").removeClass("d-none");
+
+        bar = new ProgressBar.Line(container, {
+            strokeWidth: 2,
+            easing: "easeInOut",
+            duration: 1400,
+            color: "#ED6A5A",
+            trailColor: "#eee",
+            trailWidth: 1,
+            svgStyle: null
+        });
 
         const url = "api/setting/StartTimer";
         const data = { ShuttleLevel: 1, ShuttleNumber: shuttleNumber };
@@ -45,6 +43,8 @@ var app = {
         $("#shuttleLevel").text(`Level ${shuttleLevel}`);
         $("#shuttleNumber").text(`Shuttle ${shuttleNumber}`);
         $("#speed").text(`${response.data.speed} km/h`);
+
+        app.setBarProgress(0.15);
 
         app.setNextShuttleTimer(response.data);
         app.setTotalTimeTimer(response.data);
@@ -83,6 +83,14 @@ var app = {
                 $("#currentShuttleSecondsLeft").text(`${minutes}:${seconds} s`);
             }
         }, 1000);
+    },
+
+    setBarProgress: (progress) =>
+    {
+        // Ref - https://kimmobrunfeldt.github.io/progressbar.js/
+        // Progress should be decimal format as 0.15 represents 15%
+
+        bar.animate(progress); // Number from 0.0 to 1.0
     },
 
     setTotalTimeTimer: (testStatusVm) =>
