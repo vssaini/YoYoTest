@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YoYo.Model.ViewModels
+﻿namespace YoYo.Model.ViewModels
 {
     /// <summary>
     /// Define properties that represent YoYo test progress status.
@@ -13,6 +11,11 @@ namespace YoYo.Model.ViewModels
         public int ShuttleLevel { get; set; }
 
         /// <summary>
+        /// Gets or sets current shuttle speed level.
+        /// </summary>
+        public int SpeedLevel { get; set; }
+
+        /// <summary>
         /// Gets or sets shuttle number of current shuttle.
         /// </summary>
         public int ShuttleNumber { get; set; }
@@ -23,19 +26,26 @@ namespace YoYo.Model.ViewModels
         public decimal Speed { get; set; }
 
         /// <summary>
+        /// Gets or sets the progress step.
+        /// </summary>
+        public double ProgressStep { get; set; }
+
+
+        /// <summary>
         /// Gets or sets seconds left of current shuttle.
         /// </summary>
         public double CurrentShuttleSecondsLeft { get; set; }
 
         /// <summary>
-        /// Gets or sets total time seconds spent for test.
+        /// Gets or sets time starter second.
         /// </summary>
-        public double TotalTimeSeconds { get; set; }
+        public double TimeStarterSecond { get; set; }
 
         /// <summary>
-        /// Gets or sets the distance athlete has run for current shuttle.
+        /// Gets or sets time limit second.
         /// </summary>
-        public double TotalDistance { get; set; }
+        public double TimeLimitSecond { get; set; }
+
 
         /// <summary>
         /// Gets or sets the distance incrementer.
@@ -48,13 +58,13 @@ namespace YoYo.Model.ViewModels
         public int AccumulatedDistance { get; set; }
 
         /// <summary>
-        /// Gets or sets current shuttle speed level.
+        /// Gets or sets distance starter.
         /// </summary>
-        public int SpeedLevel { get; set; }
+        public double DistanceStarter { get; set; }
 
         /// <summary>
-        /// Gets or sets the progress step.
+        /// Gets or sets distance limit.
         /// </summary>
-        public double ProgressStep { get; set; }
+        public double DistanceLimit { get; set; }
     }
 }

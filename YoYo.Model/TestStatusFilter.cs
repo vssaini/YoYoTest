@@ -11,15 +11,15 @@
         /// Gets or sets current shuttle number.
         /// </summary>
         public int ShuttleNumber { get; set; }
+        
+        /// <summary>
+        /// Gets or sets time starter second to use on JS end.
+        /// </summary>
+        public double TimeStarterSecond { get; set; }
 
         /// <summary>
-        /// Gets or sets total distance for test.
+        /// Gets or sets distance starter to use on JS end.
         /// </summary>
-        public double TotalDistance { get; set; }
-
-        /// <summary>
-        /// Gets or sets total time, in seconds, spent for test.
-        /// </summary>
-        public double TotalTimeSeconds { get; set; }
+        public double DistanceStarter { get; set; }
     }
 }

@@ -48,10 +48,7 @@ namespace YoYo.Service
         {
             var fitnessRatingSeconds = fitnessRating.CommulativeTime.TotalSeconds;
             var fitnessRatingDistance = fitnessRating.AccumulatedShuttleDistance;
-
             var currentShuttleSecondsLeft = fitnessRatingSeconds + 1;
-            var totalTimeSeconds = fitnessRatingSeconds + testStatusFilter.TotalTimeSeconds - fitnessRatingSeconds;
-            var totalDistance = fitnessRatingDistance + testStatusFilter.TotalDistance - fitnessRatingDistance;
 
             return new TestStatusViewModel
             {
@@ -64,13 +61,18 @@ namespace YoYo.Service
                 // Progress bar data
                 ProgressStep = progressStep,
 
-                // Three columns info
+                // Left column
                 CurrentShuttleSecondsLeft = currentShuttleSecondsLeft,
-                TotalTimeSeconds = totalTimeSeconds,
 
+                // Middle column
+                TimeStarterSecond = testStatusFilter.TimeStarterSecond,
+                TimeLimitSecond = testStatusFilter.TimeStarterSecond + fitnessRating.CommulativeTime.TotalSeconds,
+
+                // Right column
                 AccumulatedDistance = fitnessRatingDistance,
                 DistanceIncrementer = fitnessRatingDistance / currentShuttleSecondsLeft,
-                TotalDistance = totalDistance
+                DistanceStarter = testStatusFilter.DistanceStarter,
+                DistanceLimit = testStatusFilter.DistanceStarter + fitnessRating.AccumulatedShuttleDistance
             };
         }
 

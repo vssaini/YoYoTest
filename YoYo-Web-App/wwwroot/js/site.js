@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var shuttleLevel = 1, speedLevel, shuttleNumber = 1, bar;
+var shuttleLevel = 1, speedLevel, shuttleNumber = 1, bar, timeStarterSecond = 0, distanceStarter;
 
 var app = {
 
@@ -28,7 +28,6 @@ var app = {
 
     processTimerStatus: (response) =>
     {
-        console.log("Response ", response);
         if (!response.data)
         {
             // TODO: Test completed. Show "view results" button
@@ -49,6 +48,14 @@ var app = {
         app.setNextShuttleTimer(response.data);
         app.setTotalTimeTimer(response.data);
         app.setTotalDistanceTimer(response.data);
+    },
+
+    setBarProgress: (step) =>
+    {
+        // Ref - https://kimmobrunfeldt.github.io/progressbar.js/
+        // Progress should be decimal format as 0.15 represents 15%
+
+        bar.animate(step); // Number from 0.0 to 1.0
     },
 
     setNextShuttleTimer: (testStatusVm) =>
@@ -73,8 +80,8 @@ var app = {
                 const data = {
                     ShuttleLevel: testStatusVm.shuttleLevel + 1,
                     ShuttleNumber: testStatusVm.shuttleNumber,
-                    TotalDistance: testStatusVm.accumulatedDistance,
-                    TotalTimeSeconds: testStatusVm.currentShuttleSecondsLeft
+                    TimeStarterSecond: timeStarterSecond,
+                    DistanceStarter: distanceStarter
                 };
 
                 app.post(url, data, app.processTimerStatus);
@@ -84,63 +91,56 @@ var app = {
             }
         }, 1000);
     },
-
-    setBarProgress: (step) =>
-    {
-        // Ref - https://kimmobrunfeldt.github.io/progressbar.js/
-        // Progress should be decimal format as 0.15 represents 15%
-
-        bar.animate(step); // Number from 0.0 to 1.0
-    },
-
+    
     setTotalTimeTimer: (testStatusVm) =>
     {
-        let timer = testStatusVm.totalTimeSeconds, minutes, seconds;
-        const timeLimit = testStatusVm.currentShuttleSecondsLeft;
+        let minutes, seconds;
+        timeStarterSecond = testStatusVm.timeStarterSecond;
+        const timeLimitSecond = testStatusVm.timeLimitSecond;
 
         const totalTimeTimer = setInterval(() =>
         {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
+            minutes = parseInt(timeStarterSecond / 60, 10);
+            seconds = parseInt(timeStarterSecond % 60, 10);
 
             minutes = minutes < 10 ? `0${minutes}` : minutes;
             seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-            timer++;
+            timeStarterSecond++;
 
-            if (timeLimit - timer <= 1)
+            if (timeLimitSecond - timeStarterSecond > 0)
+            {
+                $("#totalTime").text(`${minutes}:${seconds} s`);
+
+            } else
             {
                 clearInterval(totalTimeTimer);
 
-                minutes = Math.floor(timeLimit / 60);
-                seconds = timeLimit % 60;
+                minutes = Math.floor(timeLimitSecond / 60);
+                seconds = timeLimitSecond % 60;
 
-                $("#totalTime").text(`${minutes}:${seconds} s`);
-            } else
-            {
                 $("#totalTime").text(`${minutes}:${seconds} s`);
             }
-
         }, 1000);
     },
 
     setTotalDistanceTimer: (testStatusVm) =>
     {
-        let distance = testStatusVm.totalDistance;
-        const distanceLimit = testStatusVm.accumulatedDistance;
+        distanceStarter = testStatusVm.distanceStarter;
+        const distanceLimit = testStatusVm.distanceLimit;
 
         const totalDistanceTimer = setInterval(() =>
         {
-            distance = distance + testStatusVm.distanceIncrementer;
+            distanceStarter = distanceStarter + testStatusVm.distanceIncrementer;
 
-            if (distanceLimit - distance <= 1)
+            if (distanceLimit - distanceStarter > 0)
             {
-                clearInterval(totalDistanceTimer);
-                $("#totalDistance").text(`${distanceLimit.toFixed(2)} m`);
+                $("#totalDistance").text(`${distanceStarter.toFixed(2)} m`);
 
             } else
             {
-                $("#totalDistance").text(`${distance.toFixed(2)} m`);
+                clearInterval(totalDistanceTimer);
+                $("#totalDistance").text(`${distanceLimit.toFixed(2)} m`);
             }
         }, 1000);
     },
