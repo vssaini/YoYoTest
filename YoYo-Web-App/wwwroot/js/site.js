@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var shuttleLevel = 1, speedLevel, shuttleNumber = 1, bar, timeStarterSecond = 0, distanceStarter;
+var shuttleLevel = 1, speedLevel, shuttleNumber = 1, progressBar, timeStarterSecond = 0, distanceStarter;
 
 var app = {
 
@@ -11,7 +11,7 @@ var app = {
 
         $(".btn-sec a").removeClass("d-none");
 
-        bar = new ProgressBar.Line(container, {
+        progressBar = new ProgressBar.Line(container, {
             strokeWidth: 2,
             easing: "easeInOut",
             duration: 1400,
@@ -55,7 +55,7 @@ var app = {
         // Ref - https://kimmobrunfeldt.github.io/progressbar.js/
         // Progress should be decimal format as 0.15 represents 15%
 
-        bar.animate(step); // Number from 0.0 to 1.0
+        progressBar.animate(step); // Number from 0.0 to 1.0
     },
 
     setNextShuttleTimer: (testStatusVm) =>
