@@ -91,7 +91,7 @@ namespace YoYo_Web_App.Helpers
                 return;
             }
 
-            var fitnessJsonPath = $"{AppDomain.CurrentDomain.GetData("DataDirectory")}\\fitnessrating_beeptest.json";
+            var fitnessJsonPath = $"{AppDomain.CurrentDomain.GetData("DataDirectory")}//fitnessrating_beeptest.json";
             var fitnessJsonString = File.ReadAllText(fitnessJsonPath);
 
             var fitnessRatingDtos = JsonConvert.DeserializeObject<List<FitnessRatingDto>>(fitnessJsonString);
